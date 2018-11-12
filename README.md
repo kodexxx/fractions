@@ -5,3 +5,4 @@ Simple c++ class for work with fractions
 - +, -, *, /
 - <, >
 - abs, inverte, double value
+- write fraction to output stream
