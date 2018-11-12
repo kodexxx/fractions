@@ -138,10 +138,10 @@ public:
   }
   friend Fraction operator+(const Fraction &a, const Fraction &b)
   {
-    ull lcmDown = a.lcm(a.down, b.down);
-    if ((a.isMinus && b.isMinus) || (!a.isMinus && !b.isMinus))
+    if (!(a.isMinus ^ b.isMinus))
     {
-      Fraction res(lcmDown / a.down * a.up + lcmDown / b.down * b.up, lcmDown, a.isMinus);
+      pair<Fraction, Fraction> pf = a.toCommonDown(a, b);
+      Fraction res(pf.first.up + pf.second.up, pf.first.down, a.isMinus);
       return res;
     }
     else
@@ -149,9 +149,9 @@ public:
       Fraction fMax = max(a.abs(), b.abs()),
                fMin = min(a.abs(), b.abs());
 
-      ull lcmDown = a.lcm(fMin.down, fMax.down);
+      pair<Fraction, Fraction> pf = a.toCommonDown(fMax, fMin);
 
-      Fraction f(lcmDown / fMax.down * fMax.up - lcmDown / fMin.down * fMin.up, lcmDown);
+      Fraction f(pf.first.up - pf.second.up, pf.first.down);
 
       f.isMinus = b.isMinus;
       if (a.abs() > b.abs())
